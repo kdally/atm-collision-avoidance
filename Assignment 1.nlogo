@@ -1,25 +1,55 @@
+turtles-own [
+  close_agent
+]
+
 to setup
   clear-all
-  create-turtles 10 [
+  create-turtles num_agents [
     set color yellow - 2 + random 7
     setxy random-xcor random-ycor
+    set size 2
+  ]
+  reset-ticks
+end
+
+to test_setup
+  clear-all
+  create-turtles 1 [
+  set color red
+  set size 2
+  set heading 0
+  setxy 0 -42
+  ]
+  create-turtles 1 [
+  set color green
+  set size 2
+  set heading 90
+  setxy -41 0
   ]
   reset-ticks
 end
 
 to go
-  ask turtles [ forward 0.1 ]
+  ask turtles [ forward 0.2 ]
+  ask turtles [ seperate ]
   tick
+end
+
+to seperate
+  set close_agent other turtles in-radius vision
+  if any? close_agent [
+      set heading heading + 5
+  ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 210
 10
-647
-448
+898
+699
 -1
 -1
-13.0
+8.0
 1
 10
 1
@@ -29,10 +59,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--16
-16
--16
-16
+-42
+42
+-42
+42
 0
 0
 1
@@ -72,6 +102,36 @@ NIL
 NIL
 NIL
 1
+
+SLIDER
+32
+378
+205
+411
+Vision
+Vision
+1
+10
+4.0
+1
+1
+patches
+HORIZONTAL
+
+SLIDER
+32
+318
+205
+351
+num_agents
+num_agents
+1
+100
+20.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
