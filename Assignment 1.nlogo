@@ -1,5 +1,6 @@
 turtles-own [
-  close_agent
+  close_agents
+  closest_agent
 ]
 
 to setup
@@ -18,13 +19,13 @@ to test_setup
   set color red
   set size 2
   set heading 0
-  setxy 0 -42
+  setxy 0 -15
   ]
   create-turtles 1 [
   set color green
   set size 2
-  set heading 90
-  setxy -41 0
+  set heading 270
+  setxy 15 0
   ]
   reset-ticks
 end
@@ -36,9 +37,33 @@ to go
 end
 
 to seperate
-  set close_agent other turtles in-radius vision
-  if any? close_agent [
+  find-close_agents
+  if any? close_agents [
+    find-closest_agent
+    if distance closest_agent < vision [
+      avoid-collision
+    ]
+  ]
+end
+
+to find-close_agents
+  set close_agents other turtles in-radius vision
+end
+
+to find-closest_agent
+  set closest_agent min-one-of close_agents [distance myself]
+end
+
+to avoid-collision
+  let flee_heading towards closest_agent + 180
+  ifelse abs(flee_heading - heading) < 5 [
+    set heading flee_heading
+  ] [
+    ifelse subtract-headings heading flee_heading >= 0 [
+      set heading heading - 5
+    ] [
       set heading heading + 5
+    ]
   ]
 end
 @#$#@#$#@
@@ -127,7 +152,7 @@ num_agents
 num_agents
 1
 100
-20.0
+40.0
 1
 1
 NIL
