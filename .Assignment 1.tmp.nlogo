@@ -80,7 +80,7 @@ to avoid-collision-cognitive
 
   ifelse 90 <= abs(delta_heading) and abs(delta_heading) <= 270 [
     set heading heading + max_turn
-  ] [
+  ] [print delta_heading
     ifelse  delta_heading < 0 [
 
       set heading heading - max_turn
@@ -123,7 +123,7 @@ BUTTON
 92
 75
 setup
-setup
+test_setup
 NIL
 1
 T
