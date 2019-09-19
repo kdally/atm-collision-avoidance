@@ -6,7 +6,7 @@ turtles-own [
 to setup
   clear-all
   create-turtles num_agents [
-    set color yellow - 2 + random 7
+    set color pink - 2 + random 7
     setxy random-xcor random-ycor
     set size 2
   ]
@@ -24,8 +24,8 @@ to test_setup
   create-turtles 1 [
   set color green
   set size 2
-  set heading 270
-  setxy 15 0
+  set heading 180
+  setxy 0 15
   ]
   reset-ticks
 end
@@ -56,13 +56,13 @@ end
 
 to avoid-collision
   let flee_heading towards closest_agent + 180
-  ifelse abs(flee_heading - heading) < 5 [
+  ifelse abs(flee_heading - heading) < max_turn [
     set heading flee_heading
   ] [
     ifelse subtract-headings heading flee_heading >= 0 [
-      set heading heading - 5
+      set heading heading - max_turn
     ] [
-      set heading heading + 5
+      set heading heading + max_turn
     ]
   ]
 end
@@ -153,6 +153,21 @@ num_agents
 1
 100
 40.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+32
+260
+204
+293
+max_turn
+max_turn
+0
+20
+10.0
 1
 1
 NIL
