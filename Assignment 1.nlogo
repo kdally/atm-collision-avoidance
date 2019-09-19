@@ -1,3 +1,7 @@
+globals [
+  run-seed
+]
+
 turtles-own [
   close_agents
   closest_agent
@@ -5,6 +9,7 @@ turtles-own [
 
 to setup
   clear-all
+  set run-seed 1 random-seed 1
   create-turtles num_agents [
     set color pink - 2 + random 7
     setxy random-xcor random-ycor
@@ -152,7 +157,7 @@ num_agents
 num_agents
 1
 100
-40.0
+30.0
 1
 1
 NIL
