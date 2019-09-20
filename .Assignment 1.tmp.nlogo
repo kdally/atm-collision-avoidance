@@ -1,3 +1,6 @@
+breed [proactives proactive]
+breed [stimuluss stimulus]
+
 globals [
   run-seed
 ]
@@ -10,8 +13,13 @@ turtles-own [
 to setup
   clear-all
   set run-seed 1 random-seed 1
-  create-turtles num_agents [
+  create-proactives num_agents * proportion_cognitive / 100 [
     set color pink - 2 + random 7
+    setxy random-xcor random-ycor
+    set size 2
+  ]
+  create-stimuluss num_agents * (100 - proportion_cognitive) / 100 [
+    set color blue - 2 + random 7
     setxy random-xcor random-ycor
     set size 2
   ]
@@ -36,17 +44,29 @@ to test_setup
 end
 
 to go
-  ask turtles [ forward 0.2 ]
-  ask turtles [ seperate ]
+  ask proactives [ forward 0.2 ]
+ ; ask stimuluss [ forward 0.2 ]
+  ask proactives [ seperate-proactive ]
+  ask stimuluss [ seperate-stimulus ]
   tick
 end
 
-to seperate
+to seperate-proactive
   find-close_agents
   if any? close_agents [
     find-closest_agent
     if distance closest_agent < vision [
-      avoid-collision-cognitive
+      avoid-collision-proactive
+    ]
+  ]
+end
+
+to seperate-stimulus
+  find-close_agents
+  if any? close_agents [
+    find-closest_agent
+    if distance closest_agent < vision [
+      avoid-collision
     ]
   ]
 end
@@ -72,15 +92,13 @@ to avoid-collision
   ]
 end
 
-
-
-to avoid-collision-cognitive
+to avoid-collision-proactive
   let heading_closed_agent [heading] of closest_agent
   let delta_heading heading - heading_closed_agent
 
   ifelse 90 <= abs(delta_heading) and abs(delta_heading) <= 270 [
     set heading heading + max_turn
-  ] [print delta_heading
+  ] [
     ifelse  delta_heading < 0 [
 
       set heading heading - max_turn
@@ -123,7 +141,7 @@ BUTTON
 92
 75
 setup
-test_setup
+setup
 NIL
 1
 T
@@ -175,7 +193,7 @@ num_agents
 num_agents
 1
 100
-30.0
+50.0
 1
 1
 NIL
@@ -194,6 +212,21 @@ max_turn
 1
 1
 NIL
+HORIZONTAL
+
+SLIDER
+39
+200
+235
+233
+proportion_cognitive
+proportion_cognitive
+0
+100
+48.0
+1
+1
+%
 HORIZONTAL
 
 @#$#@#$#@
