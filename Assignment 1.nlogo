@@ -4,6 +4,7 @@ breed [stimuluss stimulus]
 globals [
   run-seed
   num_conflicts
+  seperation_zone
 ]
 
 turtles-own [
@@ -25,6 +26,7 @@ to setup
     set size 2
   ]
   set num_conflicts 0
+  set seperation_zone 3
   reset-ticks
 end
 
@@ -46,8 +48,8 @@ to test_setup
 end
 
 to go
-  ask proactives [ forward 0.2 ]
-  ask stimuluss [ forward 0.2 ]
+  ask proactives [ forward 0.1 ]
+  ask stimuluss [ forward 0.1 ]
   ask proactives [ seperate-proactive ]
   ask stimuluss [ seperate-stimulus ]
   tick
@@ -60,6 +62,9 @@ to seperate-proactive
     if distance closest_agent < vision [
       avoid-collision-proactive1
     ]
+    if distance closest_agent <= seperation_zone [
+      set num_conflicts num_conflicts + 1
+    ]
   ]
 end
 
@@ -69,6 +74,9 @@ to seperate-stimulus
     find-closest_agent
     if distance closest_agent < vision [
       avoid-collision-stimulus
+    ]
+    if distance closest_agent <= seperation_zone [
+      set num_conflicts num_conflicts + 1
     ]
   ]
 end
@@ -222,7 +230,7 @@ num_agents
 num_agents
 1
 100
-81.0
+40.0
 1
 1
 NIL
@@ -258,11 +266,22 @@ Seperation_angle
 degrees
 HORIZONTAL
 
+MONITOR
+45
+127
+114
+172
+Conflicts
+num_conflicts
+1
+1
+11
+
 SLIDER
-39
-200
+18
+202
+203
 235
-233
 proportion_cognitive
 proportion_cognitive
 0
@@ -270,7 +289,7 @@ proportion_cognitive
 100.0
 1
 1
-%
+NIL
 HORIZONTAL
 
 @#$#@#$#@
