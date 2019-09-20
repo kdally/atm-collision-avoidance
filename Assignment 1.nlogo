@@ -3,6 +3,7 @@ breed [stimuluss stimulus]
 
 globals [
   run-seed
+  num_conflicts
 ]
 
 turtles-own [
@@ -23,6 +24,7 @@ to setup
     setxy random-xcor random-ycor
     set size 2
   ]
+  set num_conflicts 0
   reset-ticks
 end
 
@@ -31,14 +33,14 @@ to test_setup
   create-turtles 1 [
   set color red
   set size 2
-  set heading 350
-  setxy 2 -15
+  set heading 315
+  setxy 15 -15
   ]
   create-turtles 1 [
   set color green
   set size 2
-  set heading 5
-  setxy -2 -15
+  set heading 45
+  setxy -15 -15
   ]
   reset-ticks
 end
@@ -81,13 +83,24 @@ end
 
 to avoid-collision
   let flee_heading towards closest_agent + 180
+  let heading_closest_agent [heading] of closest_agent
+  let delta_heading heading - heading_closest_agent
+
   ifelse abs(flee_heading - heading) < max_turn [
     set heading flee_heading
   ] [
-    ifelse subtract-headings heading flee_heading >= 0 [
-      set heading heading - max_turn
+    ifelse abs(delta_heading) < seperation_angle [
+      ifelse subtract-headings heading flee_heading >= 0 [
+        set heading heading_closest_agent - (seperation_angle - 1)
+      ] [
+        set heading heading_closest_agent + (seperation_angle - 1)
+      ]
     ] [
-      set heading heading + max_turn
+      ifelse subtract-headings heading flee_heading >= 0 [
+        set heading heading - max_turn
+      ] [
+        set heading heading + max_turn
+      ]
     ]
   ]
 end
@@ -106,6 +119,9 @@ to avoid-collision-proactive
       set heading heading + max_turn
     ]
   ]
+end
+
+to conflict-counter
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -178,7 +194,7 @@ Vision
 Vision
 1
 10
-5.0
+4.0
 1
 1
 patches
@@ -193,7 +209,7 @@ num_agents
 num_agents
 1
 100
-50.0
+40.0
 1
 1
 NIL
@@ -208,10 +224,25 @@ max_turn
 max_turn
 0
 20
-11.0
+8.0
 1
 1
-NIL
+degrees
+HORIZONTAL
+
+SLIDER
+4
+437
+199
+470
+Seperation_angle
+Seperation_angle
+0
+15
+8.0
+1
+1
+degrees
 HORIZONTAL
 
 SLIDER
