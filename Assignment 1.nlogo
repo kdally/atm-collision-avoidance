@@ -58,7 +58,7 @@ to seperate-proactive
   if any? close_agents [
     find-closest_agent
     if distance closest_agent < vision [
-      avoid-collision-proactive
+      avoid-collision-proactive1
     ]
   ]
 end
@@ -68,7 +68,7 @@ to seperate-stimulus
   if any? close_agents [
     find-closest_agent
     if distance closest_agent < vision [
-      avoid-collision
+      avoid-collision-stimulus
     ]
   ]
 end
@@ -81,7 +81,7 @@ to find-closest_agent
   set closest_agent min-one-of close_agents [distance myself]
 end
 
-to avoid-collision
+to avoid-collision-proactive1
   let flee_heading towards closest_agent + 180
   let heading_closest_agent [heading] of closest_agent
   let delta_heading heading - heading_closest_agent
@@ -105,7 +105,7 @@ to avoid-collision
   ]
 end
 
-to avoid-collision-proactive
+to avoid-collision-proactive2
   let heading_closed_agent [heading] of closest_agent
   let delta_heading heading - heading_closed_agent
 
@@ -117,6 +117,19 @@ to avoid-collision-proactive
       set heading heading - max_turn
     ] [
       set heading heading + max_turn
+    ]
+  ]
+end
+
+to avoid-collision-stimulus
+  let flee_heading towards closest_agent + 180
+  ifelse abs(flee_heading - heading) < 5 [
+    set heading flee_heading
+  ] [
+    ifelse subtract-headings heading flee_heading >= 0 [
+      set heading heading - 5
+    ] [
+      set heading heading + 5
     ]
   ]
 end
@@ -209,7 +222,7 @@ num_agents
 num_agents
 1
 100
-40.0
+81.0
 1
 1
 NIL
@@ -254,7 +267,7 @@ proportion_cognitive
 proportion_cognitive
 0
 100
-80.0
+100.0
 1
 1
 %
