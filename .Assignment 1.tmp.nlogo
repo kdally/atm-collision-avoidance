@@ -47,8 +47,8 @@ to test_setup
 end
 
 to go
-  ask proactives [ forward 0.1 ]
-  ask stimuluss [ forward 0.1 ]
+  ask proactives [ forward 0.2 ]
+  ask stimuluss [ forward 0.2 ]
   ask proactives [ seperate-proactive ]
   ask stimuluss [ seperate-stimulus ]
   tick
@@ -129,16 +129,7 @@ to avoid-collision-proactive2
 end
 
 to avoid-collision-stimulus
-  let flee_heading towards closest_agent + 180
-  ifelse abs(flee_heading - heading) < 5 [
-    set heading flee_heading
-  ] [
-    ifelse subtract-headings heading flee_heading >= 0 [
-      set heading heading - 5
-    ] [
-      set heading heading + 5
-    ]
-  ]
+  set heading heading + max_
 end
 
 to conflict-counter
@@ -214,7 +205,7 @@ Vision
 Vision
 1
 10
-8.0
+4.0
 1
 1
 patches
@@ -229,7 +220,7 @@ num_agents
 num_agents
 1
 100
-60.0
+76.0
 1
 1
 NIL
@@ -244,7 +235,7 @@ max_turn
 max_turn
 0
 20
-10.0
+12.0
 1
 1
 degrees
@@ -285,7 +276,7 @@ proportion_cognitive
 proportion_cognitive
 0
 100
-80.0
+0.0
 1
 1
 NIL
