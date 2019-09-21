@@ -229,7 +229,7 @@ num_agents
 num_agents
 1
 100
-58.0
+60.0
 1
 1
 NIL
@@ -653,7 +653,7 @@ NetLogo 6.1.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="Global Sensitivity Analysis" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="Global Sensitivity Analysis" repetitions="15" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="150"/>
