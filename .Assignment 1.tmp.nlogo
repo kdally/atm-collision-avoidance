@@ -4,7 +4,6 @@ breed [stimuluss stimulus]
 globals [
   run-seed
   num_conflicts
-  seperation_zone
 ]
 
 turtles-own [
@@ -60,7 +59,7 @@ to seperate-proactive
   if any? close_agents [
     find-closest_agent
     if distance closest_agent < vision [
-      avoid-collision-proactive
+      avoid-collision-proactive1
     ]
     if distance closest_agent <= seperation_zone [
       set num_conflicts num_conflicts + 1
@@ -215,7 +214,7 @@ Vision
 Vision
 1
 10
-4.0
+8.0
 1
 1
 patches
@@ -230,7 +229,7 @@ num_agents
 num_agents
 1
 100
-40.0
+58.0
 1
 1
 NIL
@@ -245,7 +244,7 @@ max_turn
 max_turn
 0
 20
-8.0
+10.0
 1
 1
 degrees
@@ -286,10 +285,25 @@ proportion_cognitive
 proportion_cognitive
 0
 100
-0.0
+80.0
 1
 1
 NIL
+HORIZONTAL
+
+SLIDER
+19
+510
+227
+543
+seperation_zone
+seperation_zone
+0
+5
+3.0
+1
+1
+patches
 HORIZONTAL
 
 @#$#@#$#@
@@ -638,6 +652,17 @@ NetLogo 6.1.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="Global Sensitivity Analysis" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="150"/>
+    <metric>num_conflicts</metric>
+    <steppedValueSet variable="seperation_zone" first="2" step="1" last="5"/>
+    <steppedValueSet variable="Vision" first="3" step="1" last="8"/>
+    <steppedValueSet variable="num_agents" first="20" step="1" last="60"/>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
